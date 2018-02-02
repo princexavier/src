@@ -2,12 +2,22 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">WebSiteName</a>
+      <a class="navbar-brand" href="#">Bookie Man</a>
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="#">Home</a></li>
-      <li><a (click) = 'btnclick()'>Addbook</a></li>
+      <li><a style="cursor:pointer;" (click) = 'btnclick()'>Addbook</a></li>
 
     </ul>
   </div>
 </nav>
+<h1>Home Page</h1>
+<ul>
+  <li *ngFor = " let item of recievedBook">
+
+    <span>Name::{{item.name}}</span>
+    <span>Author ::{{item.author}}</span>
+    <span> Desc::{{item.description}}</span>
+  </li>
+</ul>
+<button (click) = 'viewbook()'>ViewBoooks</button>

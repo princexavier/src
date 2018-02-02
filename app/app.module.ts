@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AddbookComponent } from './addbook/addbook.component';
 import { RouterModule } from '@angular/router/src/router_module';
+import { viewservice} from '../../src/services/viewbook.service';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { RouterModule } from '@angular/router/src/router_module';
   imports: [
     BrowserModule,routing 
   ],
-  providers: [],
+  providers: [viewservice],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
