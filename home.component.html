@@ -1,0 +1,14 @@
+<input type="number" [(ngModel)] = "first.val1" name="val1" (change)='f($event.target.value)'>
+<input type="number" [(ngModel)] = "first.val2" name="val2" (change)='f($event.target.value)'>
+<input type="number" [(ngModel)] = "first.val3" (change)='f($event.target.value)'>
+<input type="number" [(ngModel)] = "se.val1" (change)='s($event.target.value)'>
+<input type="number" [(ngModel)] = "se.val2" (change)='s($event.target.value)'>
+<input type="number" [(ngModel)] = "se.val3" (change)='s($event.target.value)'>
+
+<input type="text">
+<button (click)='call()'>call</button>
+<br>
+<span>{{fi}}</span>
+<br>
+<span>{{si}}</span>
+
