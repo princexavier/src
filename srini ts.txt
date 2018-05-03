@@ -1,0 +1,331 @@
+import { Component, OnInit } from '@angular/core';
+import { CourseExpenseService } from "../../../util/service/applicationservices/courseexpense.service";
+
+@Component({
+  selector: 'app-courseexpense',
+  templateUrl: './courseexpense.component.html',
+  styleUrls: ['./courseexpense.component.css']
+})
+export class CourseexpenseComponent implements OnInit {
+  model: any = {};
+  cost: any = {};
+  finance: any = {};
+  //  firstyear:any=[];
+  temp: any = {};
+  firstYearmodel: any = {};
+  secondYearmodel: any = {};
+  thirdYearmodel: any = {};
+  fourthYearmodel: any = {};
+  fifthYearmodel: any = {};
+  sixthYearmodel: any = {};
+  //service list
+  tutioncol: any = {};
+  books: any = {};
+  computer: any = {};
+  exam: any = {};
+  library: any = {};
+  travel: any = {};
+  building: any = {};
+  boarding: any = {};
+  hostel: any = {};
+  totalExpenses:any={};
+
+
+
+
+  firstYearmodelF: any = {};
+  secondYearmodelF: any = {};
+  thirdYearmodelF: any = {};
+  fourthYearmodelF: any = {};
+  fifthYearmodelF: any = {};
+  sixthYearmodelF: any = {};
+
+  secondVal: any = 0;
+  firstVal: any = 0;
+  thirdVal: any = 0;
+  fourthVal: any = 0;
+  fifthVal: any = 0;
+  sixthVal: any = 0;
+  secondValF: any = 0;
+  firstValF: any = 0;
+  thirdValF: any = 0;
+  fourthValF: any = 0;
+  fifthValF: any = 0;
+  sixthValF: any = 0;
+  item: any;
+  costOfEstimatesColumns:any=[{colName:'S No'},{colName:'Item of Expenses'},{colName:'I'},{colName:'II'},{colName:'III'},{colName:'IV'},{colName:'V'},{colName:'VI'}];
+  meansOfFinanceColumns:any=[{colName:'S No'},{colName:'Sources'},{colName:'I'},{colName:'II'},{colName:'III'},{colName:'IV'},{colName:'V'},{colName:'VI'}];
+  constructor(private courseexpenseService: CourseExpenseService) { }
+  disablefields: boolean;
+  ngOnInit() {
+    this.model.costOfEstimates=[{laecEduType:'E',laecEduComments:"Tuition Fees"},{laecEduType:'E',laecEduComments:"Books / Stationary"},
+    {laecEduType:'E',laecEduComments:"Computer & Other Equipments"},{laecEduType:'E',laecEduComments:"Examination Fees"},{laecEduType:'E',laecEduComments:"Library Fees"},
+    {laecEduType:'E',laecEduComments:"Travel Expenses"},{laecEduType:'E',laecEduComments:"Building Fund"},{laecEduType:'E',laecEduComments:"Boarding Fee/Expense"},{laecEduType:'E',laecEduComments:"Hostel Fees or Lodge Rent"},{custom:true,laecEduType:'E',laecEduComments:''}];
+    this.model.meansOfFinances=[{laecEduType:'F',laecEduComments:"Loan Amount from PMC Bank"},{laecEduType:'F',laecEduComments:"Own Savings "},
+    {laecEduType:'F',laecEduComments:"Provident Fund Withdrawal"},{laecEduType:'F',laecEduComments:"Disposal of Investments"},{laecEduType:'F',laecEduComments:"FDs"},
+    {laecEduType:'F',laecEduComments:"Shares "},{laecEduType:'F',laecEduComments:"LIC Policies"},{laecEduType:'F',laecEduComments:"Non Repayable Scholarship"},
+    {laecEduType:'F',laecEduComments:"Repayable Scholarship"},{laecEduType:'F',laecEduComments:"Sponsorship by close relatives"},{laecEduType:'F',laecEduComments:"If Advance Payment"},{laecEduType:'F',laecEduComments:"Others (Specify)"}];
+  }
+   addrow(){
+
+    this.model.costOfEstimates.push(this.model.costOfEstimates);
+   }
+
+  isNumber(event) {
+
+    event = (event) ? event : window.event;
+    var charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+
+    }
+  }
+
+
+  calculateTotal(type:string,j:number)
+  {
+      this.totalExpenses['total'+type+'Year'+j]=0;
+      let courseExpenses;
+      if(type=="E")
+      courseExpenses=this.model.costOfEstimates;
+      else
+      courseExpenses=this.model.meansOfFinances;
+      courseExpenses.forEach(courseExpense => {
+        if(courseExpense['laecEduYear'+(j+1)]!=undefined)
+        this.totalExpenses['total'+type+'Year'+j]+=courseExpense['laecEduYear'+(j+1)];
+      });
+  }
+
+  firstCal(e) {
+    this.firstVal = 0;
+    console.log(e);
+    // var val = parseInt(e);
+    debugger;
+    for (this.item in this.firstYearmodel) {
+      this.temp = this.firstYearmodel[this.item];
+      this.firstVal = this.firstVal + this.temp;
+    }
+    this.cost.firstYear = this.firstVal;
+  }
+  secondcal(e) {
+    this.secondVal = 0;
+    debugger;
+    for (this.item in this.secondYearmodel) {
+      this.temp = this.secondYearmodel[this.item];
+      this.secondVal = this.secondVal + this.temp;
+    }
+    this.cost.secondYear = this.secondVal;
+  }
+  thirdcal(e) {
+    this.thirdVal = 0;
+    debugger;
+    for (this.item in this.thirdYearmodel) {
+      this.temp = this.thirdYearmodel[this.item];
+      this.thirdVal = this.thirdVal + this.temp;
+    }
+    this.cost.thirdYear = this.thirdVal;
+  }
+  fourthcal(e) {
+    this.fourthVal = 0;
+    debugger;
+    for (this.item in this.fourthYearmodel) {
+      this.temp = this.fourthYearmodel[this.item];
+      this.fourthVal = this.fourthVal + this.temp;
+    }
+    this.cost.fourthYear = this.fourthVal;
+  }
+  fifthcal(e) {
+    this.fifthVal = 0;
+    debugger;
+    for (this.item in this.fifthYearmodel) {
+      this.temp = this.fifthYearmodel[this.item];
+      this.fifthVal = this.fifthVal + this.temp;
+    }
+    this.cost.fifthYear = this.fourthVal;
+  }
+  sixthcal(e) {
+    this.sixthVal = 0;
+    debugger;
+    for (this.item in this.sixthYearmodel) {
+      this.temp = this.sixthYearmodel[this.item];
+      this.sixthVal = this.sixthVal + this.temp;
+    }
+    this.cost.sixthYear = this.sixthVal;
+  }
+
+// addnew(){
+
+//   var optionsFieldArray = [];
+//   this.model.optionsFieldArray.push({customtxt1:'',customtxt2:'',fyearC:'',syearC:'',tyearC:'',fourthyearC:'',fifthyearC:'',sixthyearC:'',icon:''});
+  
+// }
+
+  //means of finance method
+
+
+  finfirstcal(e) {
+    this.firstValF = 0;
+    console.log(e);
+    // var val = parseInt(e);
+    debugger;
+    for (this.item in this.firstYearmodelF) {
+      this.temp = this.firstYearmodelF[this.item];
+      this.firstValF = this.firstValF + this.temp;
+    }
+
+    this.finance.firstYearF = this.firstValF;
+
+  }
+  finsecondcal(e) {
+    this.secondValF = 0;
+    debugger;
+    for (this.item in this.secondYearmodelF) {
+      this.temp = this.secondYearmodelF[this.item];
+      this.secondValF = this.secondValF + this.temp;
+    }
+    this.finance.secondYearF = this.secondValF;
+
+  }
+  finthirdcal(e) {
+    this.thirdValF = 0;
+    debugger;
+    for (this.item in this.thirdYearmodelF) {
+      this.temp = this.thirdYearmodelF[this.item];
+      this.thirdValF = this.thirdValF + this.temp;
+    }
+
+    this.finance.thirdYearF = this.thirdValF;
+  }
+  finfourthcal(e) {
+    this.fourthValF = 0;
+    debugger;
+    for (this.item in this.fourthYearmodelF) {
+      this.temp = this.fourthYearmodelF[this.item];
+      this.fourthValF = this.fourthValF + this.temp;
+    }
+    this.finance.fourthYearF = this.fourthValF;
+
+  }
+  finfifthcal(e) {
+    this.fifthValF = 0;
+    debugger;
+    for (this.item in this.fifthYearmodelF) {
+      this.temp = this.fifthYearmodelF[this.item];
+      this.fifthValF = this.fifthValF + this.temp;
+    }
+    this.finance.fifthYearF = this.fifthValF;
+
+  }
+  finsixthcal(e) {
+    this.sixthValF = 0;
+    debugger;
+    for (this.item in this.sixthYearmodelF) {
+      this.temp = this.sixthYearmodelF[this.item];
+      this.sixthValF = this.sixthValF + this.temp;
+    }
+    this.finance.sixthYearF = this.sixthValF;
+
+  }
+
+  save() {
+    console.log(this.model);
+    let dataFilled = true;
+    for (let attr in this.cost)
+      if (this.cost[attr] != this.finance[attr + 'F'])
+        dataFilled = false;
+    if (dataFilled) {
+      console.log("Call service");
+
+      this.tutioncol.firstyear = this.firstYearmodel.fyear11;
+      this.tutioncol.secondyear = this.secondYearmodel.syear11;
+      this.tutioncol.thirdYear = this.thirdYearmodel.tyear11;
+      this.tutioncol.fourthYear = this.fourthYearmodel.fourthyear11;
+      this.tutioncol.fifthYear = this.fifthYearmodel.fifyear11;
+      this.tutioncol.sixthYear = this.sixthYearmodel.sixthyear11;
+
+      this.books.firstyear = this.firstYearmodel.fyear12;
+      this.books.secondyear = this.secondYearmodel.syear12;
+      this.books.thirdYear = this.thirdYearmodel.tyear12
+      this.books.fourthYear = this.fourthYearmodel.fourthyear12;
+      this.books.fifthYear = this.fifthYearmodel.fifyear12;
+      this.books.sixthYear = this.sixthYearmodel.sixthyear12;
+
+
+      this.computer.firstyear = this.firstYearmodel.fyear13;
+      this.computer.secondyear = this.secondYearmodel.syear13;
+      this.computer.thirdYear = this.thirdYearmodel.tyear13;
+      this.computer.fourthYear = this.fourthYearmodel.fourthyear13;
+      this.computer.fifthYear = this.fifthYearmodel.fifyear13;
+      this.computer.sixthYear = this.sixthYearmodel.sixthyear13;
+
+      this.exam.firstyear = this.firstYearmodel.fyear14;
+      this.exam.secondyear = this.secondYearmodel.syear14;
+      this.exam.thirdYear = this.thirdYearmodel.tyear14;
+      this.exam.fourthYear = this.fourthYearmodel.fourthyear14;
+      this.exam.fifthYear = this.fifthYearmodel.fifyear14;
+      this.exam.sixthYear = this.sixthYearmodel.sixthyear14;
+
+      this.library.firstyear = this.firstYearmodel.fyear15;
+      this.library.secondyear = this.secondYearmodel.syear15;
+      this.library.thirdYear = this.thirdYearmodel.tyear15;
+      this.library.fourthYear = this.fourthYearmodel.fourthyear15;
+      this.library.fifthYear = this.fifthYearmodel.fifyear15;
+      this.library.sixthYear = this.sixthYearmodel.sixthyear15;
+
+      this.travel.firstyear = this.firstYearmodel.fyear16;
+      this.travel.secondyear = this.secondYearmodel.syear16;
+      this.travel.thirdYear = this.thirdYearmodel.tyear16;
+      this.travel.fourthYear = this.fourthYearmodel.fourthyear16;
+      this.travel.fifthYear = this.fifthYearmodel.fifyear16;
+      this.travel.sixthYear = this.sixthYearmodel.sixthyear16;
+
+      this.library.firstyear = this.firstYearmodel.fyear17;
+      this.library.secondyear = this.secondYearmodel.syear17;
+      this.library.thirdYear = this.thirdYearmodel.tyear17;
+      this.library.fourthYear = this.fourthYearmodel.fourthyear17;
+      this.library.fifthYear = this.fifthYearmodel.fifyear17;
+      this.library.sixthYear = this.sixthYearmodel.sixthyear17;
+
+      this.boarding.firstyear = this.firstYearmodel.fyear18;
+      this.boarding.secondyear = this.secondYearmodel.syear18;
+      this.boarding.thirdYear = this.thirdYearmodel.tyear18;
+      this.boarding.fourthYear = this.fourthYearmodel.fourthyear18;
+      this.boarding.fifthYear = this.fifthYearmodel.fifyear18;
+      this.boarding.sixthYear = this.sixthYearmodel.sixthyear18;
+
+      this.hostel.firstyear = this.firstYearmodel.fyear19;
+      this.hostel.secondyear = this.secondYearmodel.syear19;
+      this.hostel.thirdYear = this.thirdYearmodel.tyear19;
+      this.hostel.fourthYear = this.fourthYearmodel.fourthyear19;
+      this.hostel.fifthYear = this.fifthYearmodel.fifyear19;
+      this.hostel.sixthYear = this.sixthYearmodel.sixthyear19;
+     
+     this.model.tutionentry = this.tutioncol;
+     this.model.bookentry = this.books;
+     this.model.computerendtry=this.books;
+     this.model.examentry = this.exam;
+     this.model.libraryentry=this.library;
+     this.model.travelentry=this.travel;
+     this.model.buildingentry = this.building;
+     this.model.boardingentry = this.boarding;
+     this.model.hostelentry = this.hostel;
+     
+
+      console.log(this.tutioncol);
+      this.courseexpenseService.savedetails(this.model).subscribe(
+        data => {
+          if (data.json().responseData.success == true) {
+            console.log('success')
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    }
+    else
+      alert("Data is not correct");
+
+  }
+
+}

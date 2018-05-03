@@ -1,0 +1,200 @@
+<div id="mainwrapper">
+  <div id="wrapper">
+    <div class="container-fluid">
+      <div class="page-header"><a href="#menu-toggle" id="menu-toggle" class="dp-inline-block navtoggle"><i class="fa fa-ellipsis-h"></i></a> Course
+        Expense </div>
+    </div>
+    <div class="col-md-12">
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <input type="hidden" [(ngModel)]="model.ladId">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th colspan="2">Cost of Estimates</th>
+                  <th colspan="6">Year of Study</th>
+                </tr>
+                <tr>
+                  <th width="5%" *ngFor="let costOfEstimatesColumn of costOfEstimatesColumns">{{costOfEstimatesColumn.colName}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let costOfEstimate of model.costOfEstimates;let i=index;">
+                  <td>{{i+1}}</td>
+                  <td *ngIf="costOfEstimate.custom==undefined">{{costOfEstimate.laecEduComments}}</td>
+                  <td *ngIf="costOfEstimate.custom"> <input class="form-control" maxlength="50" style="width:auto;" type="number" id="laecEduComments{{i}}{{j}}"
+                      name="laecEduComments{{i}}{{j}}" [(ngModel)]="costOfEstimate.laecEduComments">
+                     <!-- <span class="fa fa-plus"(click) = "addrow()"></span> -->
+                    </td>
+                  <ng-container *ngFor="let costOfEstimatesColumn of costOfEstimatesColumns;let j=index;">
+                    <td *ngIf="j<6">
+                      <input class="form-control" (keypress)="isNumber($event)" (change)="calculateTotal('E',j)" maxlength="50" style="width:auto;"
+                        type="number" id="costOfEstimate{{i}}{{j}}" name="costOfEstimate{{i}}{{j}}" [(ngModel)]="costOfEstimate['laecEduYear'+(j+1)]">
+                    </td>
+                  </ng-container>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>Total Expense</td>
+                  <td *ngFor="let costOfEstimatesColumn of costOfEstimatesColumns;let j=index;">
+                    <input class="form-control"  maxlength="50" style="width:auto;" type="number" id="totalEYear{{j}}" name="totalEYear{{j}}"
+                      [(ngModel)]="totalExpenses['totalEYear'+j]" readonly>
+                  </td>
+                </tr>
+
+
+              </tbody>
+            </table>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th colspan="2">Means of Finance</th>
+                  <th colspan="6">Year of Study</th>
+                </tr>
+                <tr>
+                  <th width="5%" *ngFor="let meansOfFinanceColumn of meansOfFinanceColumns">{{meansOfFinanceColumn.colName}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                 <tr *ngFor="let meansOfFinance of model.meansOfFinances;let i=index;">
+                  <td>{{i+1}}</td>
+                  <td *ngIf="meansOfFinance.custom==undefined">{{meansOfFinance.laecEduComments}}</td>
+                  <td *ngIf="meansOfFinance.custom"> <input class="form-control" maxlength="50" style="width:auto;" type="number" id="laecEduComments{{i}}{{j}}"
+                      name="laecEduComments{{i}}{{j}}" [(ngModel)]="meansOfFinance.laecEduComments"></td>
+                  <ng-container *ngFor="let meansOfFinanceColumn of meansOfFinanceColumns;let j=index;">
+                    <td *ngIf="j<6">
+                      <input class="form-control" (keypress)="isNumber($event)" (change)="calculateTotal('F',j)" maxlength="50" style="width:auto;"
+                        type="number" id="meansOfFinance{{i}}{{j}}" name="meansOfFinance{{i}}{{j}}" [(ngModel)]="meansOfFinance['laecEduYear'+(j+1)]">
+                    </td>
+                  </ng-container>
+                </tr>
+                 <tr>
+                  <td></td>
+                  <td>Total Expense</td>
+                 <td *ngFor="let meansOfFinanceColumn of meansOfFinanceColumns;let j=index;">
+                    <input class="form-control"  maxlength="50" style="width:auto;" type="number" id="totalFYear{{j}}" name="totalFYear{{j}}"
+                      [(ngModel)]="totalExpenses['totalFYear'+j]" readonly>
+                  </td>
+                 </tr>
+              </tbody>
+            </table>
+
+          </div>
+          <div class="text-center">
+            <button type="button" class="btn btn-primary btn-sm">Edit</button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="save()">Save</button>
+            <button type="button" class="btn btn-primary btn-sm">Cancel</button>
+          </div><br><br>
+        </div>
+        <div id="myModal" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">360 <sup>0</sup> Verification</h4>
+              </div>
+              <div class="modal-body verificaton">
+                <div class="col-md-12">
+
+                  <form class="form-horizontal">
+                    <div class="form-group">
+                      <label for="inputPassword" class="control-label col-xs-7"><strong class="text-upper">Dedupe Status</strong></label>
+
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPassword" class="control-label col-xs-7">Exisiting Customer</label>
+
+                      <div class="col-xs-1">
+                        <b class="fa fa-check"></b>
+                      </div>
+
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPassword" class="control-label col-xs-7">Wilful Defaulter</label>
+                      <div class="col-xs-1">
+                        <b class="fa fa-close"></b>
+                      </div>
+
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPassword" class="control-label col-xs-7">Caution List</label>
+                      <div class="col-xs-1">
+                        <b class="fa fa-check"></b>
+                      </div>
+
+                    </div>
+
+                    <div class="form-group">
+                      <label for="inputPassword" class="control-label col-xs-7">CIBIL</label>
+                      <div class="col-xs-1">
+                        <b class="fa fa-check"></b>
+                      </div>
+                      <div class="col-xs-2">
+                        <strong>740</strong>
+
+                      </div>
+                      <div class="col-xs-2">
+                        <a href="#" class="btn btn-success btn-sm">Generate</a>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPassword" class="control-label col-xs-7">Experian</label>
+                      <div class="col-xs-1">
+                        <b class="fa fa-check"></b>
+                      </div>
+
+                      <div class="col-xs-2">
+                        <strong>750</strong>
+
+                      </div>
+                      <div class="col-xs-2">
+                        <a href="#" class="btn btn-success btn-sm">Generate</a>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPassword" class="control-label col-xs-7">Imax</label>
+                      <div class="col-xs-1">
+                        <b class="fa fa-check"></b>
+                      </div>
+                      <div class="col-xs-2">
+                        <strong>780</strong>
+
+                      </div>
+
+                      <div class="col-xs-2">
+                        <a href="#" class="btn btn-success btn-sm">Generate</a>
+                      </div>
+
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPassword" class="control-label col-xs-7">Aadhar</label>
+                      <div class="col-xs-1">
+                        <b class="fa fa-check"></b>
+                      </div>
+                      <div class="col-xs-1">
+                        <label class="green-text">Matched</label>
+                      </div>
+
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPassword" class="control-label col-xs-7">PAN</label>
+                      <div class="col-xs-1">
+                        <b class="fa fa-check"></b>
+                      </div>
+                      <div class="col-xs-1">
+                        <label class="green-text">Matched</label>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="clearfix"></div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <lp-proposaldetails></lp-proposaldetails>
